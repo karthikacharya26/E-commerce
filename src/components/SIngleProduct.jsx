@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { ADD_TO_CART } from "../redux/actionTypes/cartAction";
 
-const SIngleProduct = () => {
+const SingleProduct = () => {
   const { id } = useParams();
   const product = useSelector((state) =>
     state.product.data.find((p) => p.id === parseInt(id))
@@ -23,8 +23,9 @@ const SIngleProduct = () => {
   const handleAdd = () => {
     dispatch({ type: ADD_TO_CART, payload: product });
     toast({
-      title: "Item added successfully to the cart",
+      title: "Item added to cart",
       status: "success",
+      duration: 3000,
       isClosable: true,
     });
   };
@@ -32,29 +33,35 @@ const SIngleProduct = () => {
   if (!product) return <Heading>Product not found</Heading>;
 
   return (
-    <Flex justifyContent={"center"} mt={5}>
+    <Flex justifyContent="center" mt={5} p={5}>
       <Box
-        display={"flex"}
+        display={{ base: "block", md: "flex" }}
         gap={10}
-        shadow={"xl"}
+        shadow="xl"
         p={5}
-        w={"80%"}
-        borderRadius={"xl"}
-        justifyContent={"center"}
-        alignItems={"center"}
+        w={{ base: "100%", md: "80%" }}
+        borderRadius="xl"
+        justifyContent="center"
+        alignItems="center"
       >
-        <Box>
-          <Image src={product?.image} width={"320px"} />
+        <Box mb={{ base: 5, md: 0 }} w={{ base: "80%", md: "auto" }} mx="auto">
+          <Image src={product.image} width={{ base: "100%", md: "320px" }} />
         </Box>
-        <Text>{product?.title}</Text>
-        <Text>{product?.description}</Text>
-        <Text>Price: ${product?.price}</Text>
-        <Button onClick={handleAdd} size={"lg"} w={"200px"}>
-          Add to cart
-        </Button>
+        <Box textAlign={{ base: "center", md: "left" }} w={{ base: "80%", md: "auto" }} mx="auto">
+          <Text fontSize="2xl" fontWeight="bold" mb={4}>
+            {product.title}
+          </Text>
+          <Text mb={4}>{product.description}</Text>
+          <Text fontSize="xl" fontWeight="bold" mb={4}>
+            Price: ${product.price}
+          </Text>
+          <Button onClick={handleAdd} size="lg" w="200px">
+            Add to cart
+          </Button>
+        </Box>
       </Box>
     </Flex>
   );
 };
 
-export default SIngleProduct;
+export default SingleProduct;
