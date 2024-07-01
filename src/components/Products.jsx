@@ -9,17 +9,16 @@ const Products = () => {
   const isLoading = useSelector((state) => state.product.isLoading);
   const isError = useSelector((state) => state.product.isError);
 
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleView = (id)=>{
-    navigate(`/products/${id}`)
-  }
+  const handleView = (id) => {
+    navigate(`/products/${id}`);
+  };
 
-
-  useEffect(()=>{
-    dispatch(fetchData())
-  }, [])
+  useEffect(() => {
+    dispatch(fetchData());
+  }, [dispatch]);
 
   if (isLoading) {
     return (
@@ -34,22 +33,33 @@ const Products = () => {
   }
 
   if (isError) {
-    return <Heading>Error occured</Heading>;
+    return <Heading>Error occurred</Heading>;
   }
 
-  return <Box>
-    <Grid templateColumns={'repeat(4, 1fr)'} gap={10} p={10}>
-        {data && data.map((ele)=>(
-            <Box shadow={'2xl'} borderRadius={'lg'} p={10} textAlign={'center'} key={ele.id}>
-                <Box >
-                    <Image width={'210px'} src={ele.image} />
-                </Box>
-                <Text mt={10}>{ele.title}</Text>
-                <Button mt={5} onClick={()=>handleView(ele.id)}>View</Button>
+  return (
+    <Box p={5}>
+      <Grid
+        templateColumns={['repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(4, 1fr)']}
+        gap={6}
+      >
+        {data && data.map((ele) => (
+          <Box
+            key={ele.id}
+            shadow="2xl"
+            borderRadius="lg"
+            p={5}
+            textAlign="center"
+          >
+            <Box>
+              <Image width="100%" height="auto" src={ele.image} />
             </Box>
+            <Text mt={4}>{ele.title}</Text>
+            <Button mt={3} onClick={() => handleView(ele.id)}>View</Button>
+          </Box>
         ))}
-    </Grid>
-  </Box>;
+      </Grid>
+    </Box>
+  );
 };
 
 export default Products;
